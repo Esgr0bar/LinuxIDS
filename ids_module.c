@@ -16,6 +16,16 @@ static struct jprobe jp;
 /* NF hook structure for monitoring network packets */
 static struct nf_hook_ops netfilter_ops;
 
+/* Check the stack canary value to detect potential stack overflow */
+static asmlinkage long jhooked_syscall(const struct pt_regs *regs) {
+    if (unlikely(current->stack_canary != current->stack_end)) {
+        printk(KERN_ALERT "IDS: Stack canary mismatch detected for process %s (pid %d)\n",
+               current->comm, current->pid);
+    }
+    jprobe_return();
+    return 0;  // Continue normal syscall execution
+}
+
 /* Function to hook into open syscall */
 static asmlinkage long jhooked_open(const char __user *filename, int flags, mode_t mode) {
     printk(KERN_INFO "IDS: File access detected: %s\n", filename);
