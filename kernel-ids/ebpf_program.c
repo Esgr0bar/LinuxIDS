@@ -1,33 +1,30 @@
-#include <linux/bpf.h>
-#include <linux/pkt_cls.h>
-#include <linux/if_ether.h>
-#include <linux/ip.h>
-#include <linux/udp.h>
+#include "ids.h"
 
-SEC("xdp_filter")
-int xdp_filter_func(struct xdp_md *ctx) {
-    void *data_end = (void *)(long)ctx->data_end;
-    void *data = (void *)(long)ctx->data;
-    struct ethhdr *eth = data;
-
-    /* Ensure the Ethernet header is within packet bounds */
-    if (eth + 1 > data_end)
-        return XDP_DROP;
-
-    /* Check if the packet is an IP packet */
-    if (eth->h_proto == htons(ETH_P_IP)) {
-        struct iphdr *ip = (struct iphdr *)(eth + 1);
-
-        if (ip + 1 > data_end)
-            return XDP_DROP;
-
-        /* Drop UDP packets from a specific IP as an example */
-        if (ip->protocol == IPPROTO_UDP && ip->saddr == htonl(0xC0A80001)) {
-            return XDP_DROP;
+/* eBPF program to filter and drop malicious packets */
+static int ebpf_packet_filter(struct __sk_buff *skb) {
+    struct iphdr *ip = (struct iphdr *)(skb->data + sizeof(struct ethhdr));
+    if (ip->protocol == IPPROTO_TCP) {
+        struct tcphdr *tcp = (struct tcphdr *)(ip + 1);
+        if (tcp->dest == htons(80) && tcp->syn) {
+            return XDP_DROP;  // Drop TCP SYN packets to port 80 (example)
         }
     }
-
-    return XDP_PASS;
+    return XDP_PASS;  // Pass all other packets
 }
 
-char _license[] SEC("license") = "GPL";
+/* Function to load eBPF programs into the kernel */
+void setup_ebpf_programs(void) {
+    int prog_fd = bpf_load_program(BPF_PROG_TYPE_XDP, ebpf_packet_filter, sizeof(ebpf_packet_filter));
+    if (prog_fd < 0) {
+        printk(KERN_ERR "IDS: Failed to load eBPF program\n");
+        return;
+    }
+
+    if (bpf_set_link_xdp_fd(if_nametoindex("eth0"), prog_fd, XDP_FLAGS_UPDATE_IF_NOEXIST) < 0) {
+        printk(KERN_ERR "IDS: Failed to attach eBPF program to eth0\n");
+        close(prog_fd);
+        return;
+    }
+
+    printk(KERN_INFO "IDS: eBPF program attached to eth0\n");
+}
