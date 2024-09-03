@@ -16,6 +16,7 @@ jobs:
 
     - name: Verify Makefile presence
       run: |
+        cd src
         ls -l
         if [ ! -f Makefile ]; then
           echo "Error: Makefile not found in the root directory"
