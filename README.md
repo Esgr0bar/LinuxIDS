@@ -1,6 +1,7 @@
-# Kernel-Level Intrusion Detection System (IDS)
+# Kernel-Level Intrusion Detection System (KLIDS)
 
-This repository contains a comprehensive kernel-level Intrusion Detection System (IDS) designed to detect and mitigate security threats such as buffer overflows, rootkits, and unauthorized kernel interactions. The system is enhanced with advanced features like eBPF-based packet filtering, PF_RING for high-speed packet acquisition, and a user-level daemon for efficient communication and management.
+This repository contains a comprehensive kernel-level Intrusion Detection System (KLIDS) designed to detect and mitigate security threats such as buffer overflows, rootkits, and unauthorized kernel interactions. The system is enhanced with advanced features like eBPF-based packet filtering, PF_RING for high-speed packet acquisition, Control Flow Integrity (CFI), Kernel Address Space Layout Randomization (KASLR), and a user-level daemon for efficient communication and management.
+
 
 ## Features
 
@@ -10,9 +11,9 @@ This repository contains a comprehensive kernel-level Intrusion Detection System
 - **Rootkit Detection**: Verifies the integrity of the syscall table to detect modifications indicative of rootkits.
 - **Unauthorized Kernel Interaction Detection**: Monitors the system call table and checks for hidden processes.
 - **Kernel Integrity Monitoring**: Ensures the integrity of critical kernel structures such as the syscall table, IDT, and GDT.
-- **Runtime Kernel Integrity Checks**: Implements Linux Integrity Measurement Architecture (IMA) for runtime integrity verification.
-- **Control Flow Integrity (CFI)**: Protects against control-flow hijacking attacks.
-- **Memory Protection Enhancements**: Utilizes hardened memory allocators and Kernel Address Space Layout Randomization (KASLR).
+- **Runtime Kernel Integrity Checks (IMA)**: Implements Linux Integrity Measurement Architecture (IMA) to measure the integrity of files, directories, and the kernel at runtime, preventing the execution of untrusted code.
+- **Control Flow Integrity (CFI)**: Protects against control-flow hijacking attacks, ensuring that the program follows a valid control flow path determined at compile time.
+- **Memory Protection Enhancements**: Utilizes hardened memory allocators like SLUB with features such as memory poisoning, freelist randomization, and Kernel Address Space Layout Randomization (KASLR) to protect against buffer overflows and use-after-free vulnerabilities.
 - **Syscall Filtering and Restriction**: Implements seccomp filters to restrict dangerous syscalls and prevent privilege escalation.
 - **Detection of Privilege Escalation Attempts**: Monitors user and group ID changes, particularly focusing on transitions to privileged states.
 - **High-Speed Packet Acquisition**: Uses PF_RING for efficient packet capture on high-speed networks, ensuring low latency and high throughput.
