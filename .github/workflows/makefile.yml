@@ -19,22 +19,31 @@ jobs:
         cd kernel-ids
         ls -l
         if [ ! -f Makefile ]; then
-          echo "Error: Makefile not found in the root directory"
+          echo "Error: Makefile not found in the kernel-ids directory"
           exit 1
         fi
 
     - name: Install build dependencies
-      run: sudo apt-get update && sudo apt-get install -y build-essential linux-headers-$(uname -r) sparse
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential linux-headers-$(uname -r) sparse
 
     - name: Build kernel module
-      run: kernel-ids/make all
+      run: |
+        cd kernel-ids
+        make
 
     - name: Run code style checks
-      run: kernel-ids/make check
+      run: |
+        cd kernel-ids
+        make check
 
     - name: Run static code analysis
-      run: kernel-ids/make sparse
+      run: |
+        cd kernel-ids
+        make sparse
 
     - name: Clean build artifacts
-      run: kernel-ids/make clean
-
+      run: |
+        cd kernel-ids
+        make clean
