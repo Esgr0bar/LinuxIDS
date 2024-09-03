@@ -8,20 +8,21 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-    - name: configure
-      run: ./configure
+    - name: Install build dependencies
+      run: sudo apt-get install -y build-essential
 
-    - name: Install dependencies
+    - name: Build
       run: make
 
-    - name: Run check
+    - name: Run tests
       run: make check
 
     - name: Run distcheck
       run: make distcheck
+
