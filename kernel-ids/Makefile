@@ -16,7 +16,10 @@ SRC_FILES := ids_module.c \
              pf_ring_module.c \
              kernel_integrity.c \
              syscall_filtering.c \
-             privilege_escalation.c
+             privilege_escalation.c \
+             ima_check.c \
+             cfi_check.c \
+             memory_protection_check.c
 
 # Object Files
 OBJ_FILES := $(patsubst %.c,%.o,$(SRC_FILES))
