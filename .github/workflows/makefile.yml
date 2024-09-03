@@ -16,7 +16,7 @@ jobs:
 
     - name: Verify Makefile presence
       run: |
-        cd src
+        cd kernel-ids
         ls -l
         if [ ! -f Makefile ]; then
           echo "Error: Makefile not found in the root directory"
@@ -27,14 +27,14 @@ jobs:
       run: sudo apt-get update && sudo apt-get install -y build-essential linux-headers-$(uname -r) sparse
 
     - name: Build kernel module
-      run: src/make
+      run: kernel-ids/make
 
     - name: Run code style checks
-      run: src/make check
+      run: kernel-ids/make check
 
     - name: Run static code analysis
-      run: src/make sparse
+      run: kernel-ids/make sparse
 
     - name: Clean build artifacts
-      run: src/make clean
+      run: kernel-ids/make clean
 
