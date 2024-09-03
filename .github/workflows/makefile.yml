@@ -14,6 +14,14 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    - name: Verify Makefile presence
+      run: |
+        ls -l
+        if [ ! -f Makefile ]; then
+          echo "Error: Makefile not found in the root directory"
+          exit 1
+        fi
+
     - name: Install build dependencies
       run: sudo apt-get update && sudo apt-get install -y build-essential linux-headers-$(uname -r) sparse
 
@@ -28,3 +36,4 @@ jobs:
 
     - name: Clean build artifacts
       run: make clean
+
