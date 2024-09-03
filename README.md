@@ -104,6 +104,8 @@ This project was inspired and guided by several key sources:
 
 iKern: Advanced Intrusion Detection and Prevention at the Kernel Level Using eBPF: This paper provided the foundation for using eBPF and PF_RING in the IDS, allowing for efficient in-kernel packet filtering and high-speed data acquisition.
 
+A METHOD FOR DETECTING LINUXKERNEL MODULE ROOTKITS : by Doug Wampler and James Graham
+
 Créer un Système de Détection d'Intrusion (IDS) au Niveau Kernel : Un Guide Simplifié by Wardeners
 
 Implementing Efficient Remote Procedure Calls in Networked Systems by Anirudh Jain et al.: This paper inspired the creation of a user-level daemon that interacts efficiently with the kernel module, optimizing the communication and control mechanisms between user space and kernel space.
