@@ -27,14 +27,14 @@ jobs:
       run: sudo apt-get update && sudo apt-get install -y build-essential linux-headers-$(uname -r) sparse
 
     - name: Build kernel module
-      run: make
+      run: src/make
 
     - name: Run code style checks
-      run: make check
+      run: src/make check
 
     - name: Run static code analysis
-      run: make sparse
+      run: src/make sparse
 
     - name: Clean build artifacts
-      run: make clean
+      run: src/make clean
 
