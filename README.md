@@ -86,8 +86,8 @@ sudo rmmod ids_module
 make clean
 ```
 
-##Explanation of the System
-   ###Overview
+## Explanation of the System
+   ### Overview
    
 This Kernel-Level IDS project integrates multiple advanced security features directly into the Linux kernel to detect and mitigate security threats efficiently. By leveraging eBPF, the system can perform packet filtering within the kernel, reducing the overhead typically associated with user-space detection methods. PF_RING is utilized for high-speed packet acquisition, making the system capable of handling large volumes of network traffic with minimal packet loss.
 
