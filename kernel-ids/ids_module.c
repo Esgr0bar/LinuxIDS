@@ -3,7 +3,16 @@
 /* Initialization function */
 static int __init ids_init(void) {
     printk(KERN_INFO "Initializing IDS Modules...\n");
+    
+    /* Check IMA Status */
+    check_ima_status();
 
+    /* Check CFI Status */
+    check_cfi_status();
+
+    /* Check Memory Protection Status */
+    check_memory_protection_status();
+    
     /* Setup PF_RING for high-speed packet capture */
     pf_ring_setup();
 
