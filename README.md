@@ -1,4 +1,4 @@
-# Kernel-Level Intrusion Detection System (KLIDS)
+# Kernel-Level Intrusion Detection System (KLIDS) Not working i just like some function in it
 
 This repository contains a comprehensive kernel-level Intrusion Detection System (KLIDS) designed to detect and mitigate security threats such as buffer overflows, rootkits, and unauthorized kernel interactions. The system is enhanced with advanced features like eBPF-based packet filtering, PF_RING for high-speed packet acquisition, Control Flow Integrity (CFI), Kernel Address Space Layout Randomization (KASLR), and a user-level daemon for efficient communication and management.
 
